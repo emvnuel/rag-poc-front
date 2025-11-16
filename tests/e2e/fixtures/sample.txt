@@ -1,0 +1,15 @@
+Sample Test Document
+
+This is a sample text file for testing document upload functionality in the RAG Knowledge Platform.
+
+About React:
+React is a JavaScript library for building user interfaces. It was developed by Facebook and is now maintained by Meta and a community of developers. React allows developers to create reusable UI components and efficiently update the DOM when data changes.
+
+About TypeScript:
+TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. It adds optional static typing, classes, and interfaces to JavaScript. TypeScript helps catch errors early through its type system and makes code more maintainable and easier to refactor.
+
+About Vite:
+Vite is a modern frontend build tool that provides a faster and leaner development experience. It leverages native ES modules in the browser and provides lightning-fast hot module replacement (HMR). Vite is framework-agnostic and works great with React, Vue, and other frameworks.
+
+Testing Information:
+This document is used for end-to-end testing of the document upload, processing, and retrieval functionality in the RAG platform. When questions are asked about React, TypeScript, or Vite, the system should be able to retrieve relevant information from this document.
