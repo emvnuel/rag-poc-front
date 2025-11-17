@@ -9,7 +9,6 @@ import type { SearchResult } from '@/services/api/generated/types.gen';
 import { ChatMessageList } from './ChatMessageList';
 import { ChatInput } from './ChatInput';
 import { EmptyState } from './EmptyState';
-import { SourcesList } from './SourcesList';
 import { useChatSession } from '../hooks/useChatSession';
 import { useSendChatMessage } from '../hooks/useSendChatMessage';
 import { useDelayedLoading } from '@/hooks/useDelayedLoading';
@@ -94,49 +93,31 @@ export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-full">
-      {/* Main chat area */}
-      <div className="flex flex-col flex-1 min-w-0">
-        {/* Header with new session button */}
-        <div className="border-b bg-background p-3 md:p-4 flex justify-between items-center">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">Chat</h1>
-          {messages.length > 0 && (
-            <Button variant="outline" size="sm" onClick={handleNewSession} className="h-9 md:h-8 text-sm">
-              <span className="hidden sm:inline">New Session</span>
-              <span className="sm:hidden">New</span>
-            </Button>
-          )}
-        </div>
-
-        {/* Messages area */}
-        {messages.length === 0 ? (
-          <EmptyState onSuggestionClick={handleSuggestionClick} />
-        ) : (
-          <ChatMessageList
-            messages={messages}
-            isLoading={showLoading}
-            sources={sourcesMap}
-          />
+    <div className="flex flex-col h-full">
+      {/* Header with new session button */}
+      <div className="border-b bg-background p-3 md:p-4 flex justify-between items-center">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">Chat</h1>
+        {messages.length > 0 && (
+          <Button variant="outline" size="sm" onClick={handleNewSession} className="h-9 md:h-8 text-sm">
+            <span className="hidden sm:inline">New Session</span>
+            <span className="sm:hidden">New</span>
+          </Button>
         )}
-
-        {/* Input area */}
-        <ChatInput onSend={handleSend} disabled={isPending} />
       </div>
 
-      {/* Sources sidebar - desktop only */}
-      {sourcesData.length > 0 && (
-        <aside className="hidden lg:flex lg:flex-col lg:w-80 xl:w-96 border-l bg-muted/30 overflow-y-auto">
-          <div className="p-4 lg:p-6 sticky top-0 bg-muted/30 border-b z-10">
-            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold">Sources</h2>
-            <p className="text-sm text-muted-foreground">
-              {sourcesData.length} {sourcesData.length === 1 ? 'document' : 'documents'}
-            </p>
-          </div>
-          <div className="p-4 lg:p-6">
-            <SourcesList sources={sourcesData} />
-          </div>
-        </aside>
+      {/* Messages area */}
+      {messages.length === 0 ? (
+        <EmptyState onSuggestionClick={handleSuggestionClick} />
+      ) : (
+        <ChatMessageList
+          messages={messages}
+          isLoading={showLoading}
+          sources={sourcesMap}
+        />
       )}
+
+      {/* Input area */}
+      <ChatInput onSend={handleSend} disabled={isPending} />
     </div>
   );
 };
