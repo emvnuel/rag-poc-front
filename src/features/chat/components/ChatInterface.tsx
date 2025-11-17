@@ -95,7 +95,7 @@ export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
   return (
     <div className="flex flex-col h-full">
       {/* Header with new session button */}
-      <div className="border-b bg-background p-3 md:p-4 flex justify-between items-center">
+      <div className="border-b bg-background p-3 md:p-4 flex justify-between items-center flex-shrink-0">
         <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">Chat</h1>
         {messages.length > 0 && (
           <Button variant="outline" size="sm" onClick={handleNewSession} className="h-9 md:h-8 text-sm">
@@ -105,19 +105,23 @@ export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
         )}
       </div>
 
-      {/* Messages area */}
-      {messages.length === 0 ? (
-        <EmptyState onSuggestionClick={handleSuggestionClick} />
-      ) : (
-        <ChatMessageList
-          messages={messages}
-          isLoading={showLoading}
-          sources={sourcesMap}
-        />
-      )}
+      {/* Messages area - grows to fill available space */}
+      <div className="flex-1 overflow-y-auto">
+        {messages.length === 0 ? (
+          <EmptyState onSuggestionClick={handleSuggestionClick} />
+        ) : (
+          <ChatMessageList
+            messages={messages}
+            isLoading={showLoading}
+            sources={sourcesMap}
+          />
+        )}
+      </div>
 
-      {/* Input area */}
-      <ChatInput onSend={handleSend} disabled={isPending} />
+      {/* Input area - stays at bottom */}
+      <div className="flex-shrink-0">
+        <ChatInput onSend={handleSend} disabled={isPending} />
+      </div>
     </div>
   );
 };
