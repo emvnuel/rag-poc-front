@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -22,28 +21,29 @@ interface TextUploadFormProps {
  */
 export function TextUploadForm({ projectId }: TextUploadFormProps) {
   const { mutate: processText, isPending } = useProcessText()
-  const [text, setText] = useState('')
 
   const {
+    register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm<TextFormData>({
     resolver: zodResolver(textSchema),
+    mode: 'onChange',
+    defaultValues: {
+      text: '',
+    },
   })
 
-  const onSubmit = () => {
-    if (text.trim()) {
-      processText(
-        { text, projectId },
-        {
-          onSuccess: () => {
-            setText('')
-            reset()
-          },
-        }
-      )
-    }
+  const onSubmit = (data: TextFormData) => {
+    processText(
+      { text: data.text, projectId },
+      {
+        onSuccess: () => {
+          reset()
+        },
+      }
+    )
   }
 
   return (
@@ -53,8 +53,7 @@ export function TextUploadForm({ projectId }: TextUploadFormProps) {
           <Label htmlFor="text">Text Content</Label>
           <textarea
             id="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
+            {...register('text')}
             className="w-full min-h-[200px] mt-2 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
             placeholder="Paste your text here..."
           />
@@ -63,7 +62,7 @@ export function TextUploadForm({ projectId }: TextUploadFormProps) {
           )}
         </div>
 
-        <Button type="submit" disabled={isPending || !text.trim()}>
+        <Button type="submit" disabled={isPending || !isValid}>
           {isPending ? 'Processing...' : 'Upload Text'}
         </Button>
       </form>
