@@ -8,26 +8,26 @@ import { useEffect, useRef, memo } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import type { ChatMessage as ChatMessageType, SearchResult } from '@/services/api/generated/types.gen';
 import { ChatMessage } from './ChatMessage';
-import { SourceCitation } from './SourceCitation';
 
 export interface ChatMessageListProps {
   messages: ChatMessageType[];
-  sources?: SearchResult[];
   isLoading?: boolean;
+  sources?: Map<string, SearchResult>;
 }
 
 /**
  * Displays the full conversation history with automatic scroll to bottom.
  *
- * Shows user and assistant messages with source citations after assistant responses.
+ * Shows user and assistant messages with automatic scrolling behavior.
  * Automatically scrolls to show the latest message when new messages arrive.
+ * Passes source data to messages for citation tooltips.
  *
  * @param props - Component props
  * @param props.messages - Array of chat messages to display
- * @param props.sources - Optional array of source citations for the latest response
  * @param props.isLoading - Whether a response is currently being loaded
+ * @param props.sources - Map of source IDs to source data for citation tooltips
  */
-export const ChatMessageList = memo(function ChatMessageList({ messages, sources, isLoading }: ChatMessageListProps) {
+export const ChatMessageList = memo(function ChatMessageList({ messages, isLoading, sources }: ChatMessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   
@@ -55,7 +55,7 @@ export const ChatMessageList = memo(function ChatMessageList({ messages, sources
   // Render with virtual scrolling for large lists
   if (useVirtualScrolling) {
     return (
-      <div ref={parentRef} className="flex-1 overflow-y-auto p-4" style={{ contain: 'strict' }}>
+      <div ref={parentRef} className="flex-1 overflow-y-auto p-3 md:p-4" style={{ contain: 'strict' }}>
         <div
           style={{
             height: `${rowVirtualizer.getTotalSize()}px`,
@@ -77,29 +77,21 @@ export const ChatMessageList = memo(function ChatMessageList({ messages, sources
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
               >
-                <div className="pb-4">
-                  <ChatMessage message={message} />
+                <div className="pb-3 md:pb-4">
+                  <ChatMessage message={message} sources={sources} />
                 </div>
               </div>
             );
           })}
           
           {isLoading && (
-            <div className="flex justify-start mb-4">
-              <div className="max-w-[80%] rounded-lg px-4 py-3 bg-muted">
+            <div className="flex justify-start mb-3 md:mb-4">
+              <div className="max-w-[90%] md:max-w-[80%] rounded-lg px-3 py-2 md:px-4 md:py-3 bg-muted">
                 <div className="flex items-center gap-2">
                   <div className="animate-pulse text-sm text-muted-foreground">
                     Thinking...
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-
-          {sources && sources.length > 0 && (
-            <div className="flex justify-start mb-4">
-              <div className="max-w-[80%]">
-                <SourceCitation sources={sources} />
               </div>
             </div>
           )}
@@ -110,27 +102,19 @@ export const ChatMessageList = memo(function ChatMessageList({ messages, sources
 
   // Standard layout for smaller message lists (≤50 messages)
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 md:space-y-4">
       {messages.map((message, index) => (
-        <ChatMessage key={index} message={message} />
+        <ChatMessage key={index} message={message} sources={sources} />
       ))}
 
       {isLoading && (
-        <div className="flex justify-start mb-4">
-          <div className="max-w-[80%] rounded-lg px-4 py-3 bg-muted">
+        <div className="flex justify-start mb-3 md:mb-4">
+          <div className="max-w-[90%] md:max-w-[80%] rounded-lg px-3 py-2 md:px-4 md:py-3 bg-muted">
             <div className="flex items-center gap-2">
               <div className="animate-pulse text-sm text-muted-foreground">
                 Thinking...
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {sources && sources.length > 0 && (
-        <div className="flex justify-start mb-4">
-          <div className="max-w-[80%]">
-            <SourceCitation sources={sources} />
           </div>
         </div>
       )}

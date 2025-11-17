@@ -93,7 +93,7 @@ export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col flex-1">
       {/* Header with new session button */}
       <div className="border-b bg-background p-3 md:p-4 flex justify-between items-center flex-shrink-0">
         <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">Chat</h1>

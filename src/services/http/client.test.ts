@@ -8,6 +8,8 @@
  * - Specific error code handling (401, 429)
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { httpClient, type ApiError } from './client'
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios'

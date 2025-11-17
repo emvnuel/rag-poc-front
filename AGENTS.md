@@ -23,6 +23,8 @@ Refer to `.specify/memory/constitution.md` for test-first development (NON-NEGOT
 ## Active Technologies
 - TypeScript 5.9.3 with React 19.2.0 + Shadcn UI, React Query, Axios, React Router, Zod (validation), React Hook Form (001-rag-knowledge-platform)
 - Backend API (localhost:42069) - no frontend persistence beyond session/cache (001-rag-knowledge-platform)
+- TypeScript 5.9.3 + React 19.2.0, Tailwind CSS 3.x, Shadcn UI (Radix UI primitives), React Router (002-responsive-design)
+- N/A (responsive design is presentation-layer only) (002-responsive-design)
 
 ## Recent Changes
 - 001-rag-knowledge-platform: Added TypeScript 5.9.3 with React 19.2.0 + Shadcn UI, React Query, Axios, React Router, Zod (validation), React Hook Form

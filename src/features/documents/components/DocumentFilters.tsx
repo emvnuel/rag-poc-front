@@ -69,9 +69,9 @@ export function DocumentFilters({
     <div className="flex items-center gap-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Filter className="h-4 w-4" />
-            Filters
+          <Button variant="outline" size="sm" className="gap-1 md:gap-2 h-11 md:h-9">
+            <Filter className="h-4 w-4 flex-shrink-0" />
+            <span className="hidden sm:inline">Filters</span>
             {activeFiltersCount > 0 && (
               <Badge variant="secondary" className="ml-1 h-5 min-w-5 px-1 text-xs">
                 {activeFiltersCount}
@@ -112,7 +112,7 @@ export function DocumentFilters({
                   variant="ghost"
                   size="sm"
                   onClick={handleClearAll}
-                  className="w-full justify-start text-xs"
+                  className="w-full justify-start text-xs h-9"
                 >
                   <X className="h-3 w-3 mr-2" />
                   Clear All Filters

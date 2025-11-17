@@ -38,12 +38,12 @@ export const ProjectSelector = ({ currentProjectId }: ProjectSelectorProps) => {
   };
 
   if (isLoading) {
-    return <Skeleton className="h-10 w-48" />;
+    return <Skeleton className="h-11 md:h-10 w-32 md:w-48" />;
   }
 
   if (!projects || projects.length === 0) {
     return (
-      <Button variant="outline" disabled>
+      <Button variant="outline" disabled className="h-11 md:h-10 text-sm">
         No Projects
       </Button>
     );
@@ -52,7 +52,7 @@ export const ProjectSelector = ({ currentProjectId }: ProjectSelectorProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="h-11 md:h-10 text-sm max-w-[200px] truncate">
           {currentProject?.name || 'Select Project'}
         </Button>
       </DropdownMenuTrigger>
@@ -63,7 +63,7 @@ export const ProjectSelector = ({ currentProjectId }: ProjectSelectorProps) => {
             onClick={() => handleSelect(project)}
             className={currentProjectId === project.id ? 'bg-accent' : ''}
           >
-            {project.name}
+            <span className="truncate">{project.name}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

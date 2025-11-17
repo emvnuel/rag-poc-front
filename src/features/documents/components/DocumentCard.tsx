@@ -123,10 +123,10 @@ export function DocumentCard({
 
   return (
     <Card className={cn(
-      "p-4 hover:shadow-md transition-shadow",
+      "p-3 md:p-4 hover:shadow-md transition-shadow",
       isSelected && "ring-2 ring-primary"
     )}>
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-2 md:gap-3">
         {onSelect && (
           <Checkbox
             checked={isSelected}
@@ -144,45 +144,45 @@ export function DocumentCard({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
-            <h3 className="font-medium text-sm truncate" title={document.fileName}>
+            <h3 className="font-medium text-sm md:text-base truncate" title={document.fileName}>
               {searchQuery ? highlightText(document.fileName, searchQuery) : document.fileName}
             </h3>
             <DocumentStatusBadge status={document.status} />
           </div>
 
-          <div className="flex flex-col gap-1 text-xs text-muted-foreground mb-3">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 bg-muted rounded">
+          <div className="flex flex-col gap-1 text-xs md:text-sm text-muted-foreground mb-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2 py-0.5 bg-muted rounded text-xs">
                 {getTypeLabel(document.type)}
               </span>
               {fileSize && (
                 <>
-                  <span>•</span>
-                  <span>{fileSize}</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span className="text-xs">{fileSize}</span>
                 </>
               )}
             </div>
             <div className="flex items-center gap-2">
-              <span title={`Created: ${document.createdAt}`}>
+              <span title={`Created: ${document.createdAt}`} className="text-xs">
                 Created {formatDate(document.createdAt)}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span title={`Updated: ${document.updatedAt}`}>
+              <span title={`Updated: ${document.updatedAt}`} className="text-xs">
                 Updated {formatDate(document.updatedAt)}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             {onView && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onView(document)}
-                className="h-8 text-xs"
+                className="h-11 sm:h-8 text-sm sm:text-xs justify-start sm:justify-center"
               >
-                <Eye className="h-3 w-3 mr-1" />
+                <Eye className="h-4 w-4 sm:h-3 sm:w-3 mr-2 sm:mr-1" />
                 View Details
               </Button>
             )}
@@ -191,9 +191,9 @@ export function DocumentCard({
                 variant="ghost"
                 size="sm"
                 onClick={() => onDelete(document)}
-                className="h-8 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                className="h-11 sm:h-8 text-sm sm:text-xs text-destructive hover:text-destructive hover:bg-destructive/10 justify-start sm:justify-center"
               >
-                <Trash2 className="h-3 w-3 mr-1" />
+                <Trash2 className="h-4 w-4 sm:h-3 sm:w-3 mr-2 sm:mr-1" />
                 Delete
               </Button>
             )}

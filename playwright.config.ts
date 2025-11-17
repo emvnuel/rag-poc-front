@@ -28,11 +28,46 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
+
+    // Mobile device emulation
+    {
+      name: 'mobile-chrome',
+      use: {
+        ...devices['iPhone 12 Pro'],
+        browserName: 'chromium',
+      },
+    },
+    {
+      name: 'mobile-safari',
+      use: {
+        ...devices['iPhone 12 Pro'],
+        browserName: 'webkit',
+      },
+    },
+
+    // Tablet device emulation
+    {
+      name: 'tablet-chrome',
+      use: {
+        ...devices['iPad Pro'],
+        browserName: 'chromium',
+      },
+    },
+    {
+      name: 'tablet-safari',
+      use: {
+        ...devices['iPad Pro'],
+        browserName: 'webkit',
+      },
+    },
   ],
 
   webServer: {
-    command: 'npm run dev',
+    command: 'VITE_ENABLE_DEVTOOLS=false npm run dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
+    env: {
+      VITE_ENABLE_DEVTOOLS: 'false',
+    },
   },
 })

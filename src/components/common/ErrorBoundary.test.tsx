@@ -64,7 +64,6 @@ describe('ErrorBoundary', () => {
 
   it('should display generic message when error has no message', () => {
     function ThrowErrorWithoutMessage(): React.ReactElement {
-      // eslint-disable-next-line @typescript-eslint/no-throw-literal
       throw { code: 'UNKNOWN' } // Throw non-Error object
     }
 

@@ -4,6 +4,7 @@
  * Tests user-friendly error message mapping from HTTP status codes
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest';
 import { ERROR_MESSAGES, getErrorMessage } from './errors';
 

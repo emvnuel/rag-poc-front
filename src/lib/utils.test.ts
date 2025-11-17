@@ -27,13 +27,15 @@ describe('cn', () => {
   });
 
   it('should handle conditional classes with false', () => {
-    const result = cn('text-red-500', false && 'text-blue-500');
+    const condition = false;
+    const result = cn('text-red-500', condition && 'text-blue-500');
     expect(result).toBe('text-red-500');
     expect(result).not.toContain('text-blue-500');
   });
 
   it('should handle conditional classes with true', () => {
-    const result = cn('text-red-500', true && 'text-blue-500');
+    const condition = true;
+    const result = cn('text-red-500', condition && 'text-blue-500');
     expect(result).toBe('text-blue-500');
   });
 
