@@ -54,33 +54,34 @@ export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogP
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent>
+      <DialogContent className="p-4 md:p-6">
         <DialogHeader>
-          <DialogTitle>Create New Project</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-lg md:text-xl">Create New Project</DialogTitle>
+          <DialogDescription className="text-sm">
             Create a new workspace to organize your documents and knowledge base.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Project Name</Label>
+            <Label htmlFor="name" className="text-sm">Project Name</Label>
             <Input
               id="name"
               placeholder="My Knowledge Base"
               {...register('name')}
               disabled={isPending}
+              className="h-11 md:h-10 text-base"
             />
             {errors.name && (
               <p className="text-sm text-destructive">{errors.name.message}</p>
             )}
           </div>
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={handleClose} disabled={isPending}>
+          <DialogFooter className="flex-col sm:flex-row gap-2">
+            <Button type="button" variant="outline" onClick={handleClose} disabled={isPending} className="h-11 md:h-10">
               Cancel
             </Button>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending} className="h-11 md:h-10">
               {isPending ? 'Creating...' : 'Create Project'}
             </Button>
           </DialogFooter>

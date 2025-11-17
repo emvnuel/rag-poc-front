@@ -22,7 +22,6 @@ export function useDelayedLoading(isLoading: boolean, delay = 200): boolean {
   const [showLoading, setShowLoading] = useState(false)
 
   useEffect(() => {
-    // Only handle the loading state change via timer
     let timer: ReturnType<typeof setTimeout> | null = null
 
     if (isLoading) {
@@ -30,16 +29,16 @@ export function useDelayedLoading(isLoading: boolean, delay = 200): boolean {
       timer = setTimeout(() => {
         setShowLoading(true)
       }, delay)
+    } else {
+      // Immediately hide loading when isLoading becomes false
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- This is intentional: we need to synchronize showLoading state with isLoading prop immediately when loading completes
+      setShowLoading(false)
     }
 
-    // Cleanup function handles both clearing timer and resetting state
+    // Cleanup: clear timer if component unmounts or effect re-runs
     return () => {
       if (timer) {
         clearTimeout(timer)
-      }
-      if (!isLoading) {
-        // Hide loading in cleanup when isLoading becomes false
-        setShowLoading(false)
       }
     }
   }, [isLoading, delay])

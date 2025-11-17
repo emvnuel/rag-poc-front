@@ -34,9 +34,9 @@ export interface ProjectListProps {
 export const ProjectList = memo(function ProjectList({ projects, isLoading, onEdit, onDelete }: ProjectListProps) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
         {Array.from({ length: 6 }).map((_, index) => (
-          <Skeleton key={index} className="h-40" />
+          <Skeleton key={index} className="h-36 md:h-40" />
         ))}
       </div>
     );
@@ -44,9 +44,9 @@ export const ProjectList = memo(function ProjectList({ projects, isLoading, onEd
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-8 md:py-12 px-4">
         <div className="text-muted-foreground space-y-2">
-          <p className="text-lg font-semibold">No projects yet</p>
+          <p className="text-base md:text-lg font-semibold">No projects yet</p>
           <p className="text-sm">Create your first project to get started.</p>
         </div>
       </div>
@@ -54,7 +54,7 @@ export const ProjectList = memo(function ProjectList({ projects, isLoading, onEd
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
       {projects.map((project) => (
         <ProjectCard
           key={project.id}

@@ -86,16 +86,16 @@ export function DocumentsPage() {
   }
 
   return (
-    <div className="container max-w-6xl py-8">
+    <div className="container mx-auto max-w-7xl px-4 py-4 md:px-6 md:py-6 lg:py-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 md:mb-8">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-lg bg-primary/10">
-            <FileText className="h-6 w-6 text-primary" />
+            <FileText className="h-5 w-5 md:h-6 md:w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold">Documents</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Documents</h1>
+            <p className="text-xs md:text-sm text-muted-foreground">
               Upload and manage your knowledge base
             </p>
           </div>
@@ -105,6 +105,7 @@ export function DocumentsPage() {
           size="sm"
           onClick={handleRefresh}
           disabled={isRefetching}
+          className="w-full sm:w-auto"
         >
           <RefreshCw
             className={`h-4 w-4 mr-2 ${isRefetching ? 'animate-spin' : ''}`}
@@ -114,18 +115,18 @@ export function DocumentsPage() {
       </div>
 
       {/* Upload Section */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Upload Documents</h2>
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-base md:text-lg lg:text-xl font-semibold mb-4">Upload Documents</h2>
         <UploadTabs projectId={projectId} />
       </div>
 
       {/* Documents List */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-base md:text-lg lg:text-xl font-semibold">
             Your Documents
             {!isLoading && (
-              <span className="text-sm font-normal text-muted-foreground ml-2">
+              <span className="text-xs md:text-sm font-normal text-muted-foreground ml-2">
                 ({documents.length})
               </span>
             )}
@@ -133,14 +134,12 @@ export function DocumentsPage() {
         </div>
 
         {/* Search, Filter, and Sort Controls */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <div className="flex-1">
-            <DocumentSearch
-              value={searchQuery}
-              onChange={setSearchQuery}
-            />
-          </div>
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-4 mb-6">
+          <DocumentSearch
+            value={searchQuery}
+            onChange={setSearchQuery}
+          />
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <DocumentFilters
               selectedTypes={selectedTypes}
               selectedStatuses={selectedStatuses}

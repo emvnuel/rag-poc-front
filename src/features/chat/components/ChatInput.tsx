@@ -46,7 +46,7 @@ export const ChatInput = ({ onSend, disabled, placeholder = 'Ask a question...' 
   };
 
   return (
-    <div className="border-t bg-background p-4">
+    <div className="border-t bg-background p-3 md:p-4">
       <div className="flex gap-2">
         <textarea
           value={input}
@@ -55,17 +55,17 @@ export const ChatInput = ({ onSend, disabled, placeholder = 'Ask a question...' 
           placeholder={placeholder}
           disabled={disabled}
           rows={3}
-          className="flex-1 resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex-1 resize-none rounded-md border border-input bg-background px-3 py-2 text-base md:text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         />
         <Button
           onClick={handleSend}
           disabled={disabled || !input.trim()}
-          className="self-end"
+          className="self-end h-11 md:h-10 px-4 md:px-3 text-sm"
         >
           Send
         </Button>
       </div>
-      <div className="mt-1 text-xs text-muted-foreground">
+      <div className="mt-2 text-xs text-muted-foreground">
         Press Enter to send, Shift+Enter for new line
       </div>
     </div>

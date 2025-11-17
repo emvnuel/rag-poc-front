@@ -28,27 +28,27 @@ const SUGGESTED_QUESTIONS = [
  */
 export const EmptyState = ({ onSuggestionClick }: EmptyStateProps) => {
   return (
-    <div className="flex-1 flex items-center justify-center p-8">
-      <div className="max-w-2xl w-full space-y-6">
+    <div className="flex-1 flex items-center justify-center p-4 md:p-8">
+      <div className="max-w-2xl w-full space-y-4 md:space-y-6 lg:space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold">Start a Conversation</h2>
-          <p className="text-muted-foreground">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">Start a Conversation</h2>
+          <p className="text-sm md:text-base text-muted-foreground px-2">
             Ask questions about your uploaded documents and get answers with source citations.
           </p>
         </div>
 
         <div className="space-y-3">
-          <div className="text-sm font-semibold text-muted-foreground">
+          <div className="text-sm font-semibold text-muted-foreground px-2">
             Try asking:
           </div>
           <div className="grid gap-2">
             {SUGGESTED_QUESTIONS.map((question, index) => (
               <Card
                 key={index}
-                className="p-3 cursor-pointer hover:bg-accent transition-colors"
+                className="p-3 md:p-4 cursor-pointer hover:bg-accent transition-colors active:scale-[0.98]"
                 onClick={() => onSuggestionClick?.(question)}
               >
-                <p className="text-sm">{question}</p>
+                <p className="text-sm md:text-base">{question}</p>
               </Card>
             ))}
           </div>

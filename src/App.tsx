@@ -44,7 +44,9 @@ function App() {
             </BrowserRouter>
             <Toaster />
           </WorkspaceProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {import.meta.env.VITE_ENABLE_DEVTOOLS !== 'false' && (
+            <ReactQueryDevtools initialIsOpen={false} />
+          )}
         </QueryClientProvider>
       </ThemeProvider>
     </ErrorBoundary>

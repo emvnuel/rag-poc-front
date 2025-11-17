@@ -33,6 +33,8 @@ dist-ssr
 coverage
 .nyc_output
 *.lcov
+playwright-report
+test-results
 
 # Build artifacts
 build

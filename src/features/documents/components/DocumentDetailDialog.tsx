@@ -80,17 +80,17 @@ export function DocumentDetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[85vh] md:max-h-[80vh] overflow-y-auto p-4 md:p-6">
         <DialogHeader>
-          <div className="flex items-start gap-3 mb-2">
+          <div className="flex items-start gap-2 md:gap-3 mb-2">
             <div className="p-2 rounded-lg bg-primary/10 text-primary flex-shrink-0">
               {renderTypeIcon()}
             </div>
             <div className="flex-1 min-w-0">
-              <DialogTitle className="text-xl break-words">
+              <DialogTitle className="text-lg md:text-xl break-words">
                 {document.fileName}
               </DialogTitle>
-              <DialogDescription className="mt-1">
+              <DialogDescription className="mt-1 text-sm">
                 {getTypeLabel(document.type)}
               </DialogDescription>
             </div>
@@ -98,32 +98,32 @@ export function DocumentDetailDialog({
           </div>
         </DialogHeader>
 
-        <div className="space-y-6 mt-4">
+        <div className="space-y-4 md:space-y-6 mt-3 md:mt-4">
           {/* Basic Information */}
           <div>
             <h3 className="text-sm font-semibold mb-3">Information</h3>
-            <dl className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <dt className="text-muted-foreground mb-1">Document ID</dt>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 text-sm">
+              <div className="sm:col-span-2">
+                <dt className="text-muted-foreground mb-1 text-xs md:text-sm">Document ID</dt>
                 <dd className="font-mono text-xs break-all">{document.id}</dd>
               </div>
               <div>
-                <dt className="text-muted-foreground mb-1">Type</dt>
-                <dd>{getTypeLabel(document.type)}</dd>
+                <dt className="text-muted-foreground mb-1 text-xs md:text-sm">Type</dt>
+                <dd className="text-sm">{getTypeLabel(document.type)}</dd>
               </div>
               <div>
-                <dt className="text-muted-foreground mb-1 flex items-center gap-1">
+                <dt className="text-muted-foreground mb-1 flex items-center gap-1 text-xs md:text-sm">
                   <Calendar className="h-3 w-3" />
                   Created
                 </dt>
-                <dd>{formatDate(document.createdAt)}</dd>
+                <dd className="text-sm">{formatDate(document.createdAt)}</dd>
               </div>
-              <div>
-                <dt className="text-muted-foreground mb-1 flex items-center gap-1">
+              <div className="sm:col-span-2">
+                <dt className="text-muted-foreground mb-1 flex items-center gap-1 text-xs md:text-sm">
                   <Clock className="h-3 w-3" />
                   Last Updated
                 </dt>
-                <dd>{formatDate(document.updatedAt)}</dd>
+                <dd className="text-sm">{formatDate(document.updatedAt)}</dd>
               </div>
             </dl>
           </div>
@@ -132,7 +132,7 @@ export function DocumentDetailDialog({
           {Object.keys(metadata).length > 0 && (
             <div>
               <h3 className="text-sm font-semibold mb-3">Metadata</h3>
-              <div className="bg-muted rounded-lg p-4">
+              <div className="bg-muted rounded-lg p-3 md:p-4">
                 <pre className="text-xs overflow-x-auto">
                   {JSON.stringify(metadata, null, 2)}
                 </pre>
