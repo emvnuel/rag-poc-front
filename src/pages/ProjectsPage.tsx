@@ -48,15 +48,15 @@ export const ProjectsPage = () => {
   };
 
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="container mx-auto max-w-7xl p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Projects</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Projects</h1>
+          <p className="text-sm md:text-base text-muted-foreground">
             Manage your knowledge base workspaces
           </p>
         </div>
-        <Button onClick={() => setCreateDialogOpen(true)}>
+        <Button onClick={() => setCreateDialogOpen(true)} className="w-full sm:w-auto">
           Create Project
         </Button>
       </div>

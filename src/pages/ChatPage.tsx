@@ -18,10 +18,10 @@ export const ChatPage = () => {
 
   if (!projectId) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className="flex items-center justify-center h-full px-4">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold">No Project Selected</h2>
-          <p className="text-muted-foreground">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">No Project Selected</h2>
+          <p className="text-sm md:text-base text-muted-foreground">
             Please select a project from the workspace selector to start chatting.
           </p>
         </div>
