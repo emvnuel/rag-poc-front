@@ -8,13 +8,16 @@ interface LayoutProps {
 
 /**
  * Main layout component with header and content area
+ * 
+ * Note: main element has no container constraint - pages control their own max-widths
+ * to allow flexible layouts (e.g., full-width chat with sidebar on desktop)
  */
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <OfflineBanner />
       <Header />
-      <main className="container py-6 px-4">{children}</main>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }
