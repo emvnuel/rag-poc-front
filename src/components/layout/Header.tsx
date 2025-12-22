@@ -40,7 +40,7 @@ export function Header() {
               {t('header.title')}
             </span>
           </Link>
-          {isProjectPage && (
+          {isProjectPage && isAuthenticated && (
             <div className="hidden lg:block">
               <ProjectSelector currentProjectId={projectId} />
             </div>
