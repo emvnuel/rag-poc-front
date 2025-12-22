@@ -1,9 +1,5 @@
 /**
- * Authentication context and provider for React components.
- *
- * Provides authentication state and actions to the component tree
- * via React Context. Uses the AuthService singleton for actual
- * authentication logic.
+ * Authentication context and provider using Keycloak adapter.
  */
 
 import {
@@ -12,6 +8,7 @@ import {
   useEffect,
   useCallback,
   type ReactNode,
+  useRef,
 } from 'react'
 import { authService } from './services/auth-service'
 import type {
@@ -33,7 +30,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  isLoading: true, // Start loading to check for existing session
+  isLoading: true,
   user: null,
   error: null,
 }
@@ -41,11 +38,7 @@ const initialState: AuthState = {
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
     case 'LOGIN_START':
-      return {
-        ...state,
-        isLoading: true,
-        error: null,
-      }
+      return { ...state, isLoading: true, error: null }
     case 'LOGIN_SUCCESS':
       return {
         ...state,
@@ -78,16 +71,10 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
         user: action.payload,
         error: null,
       }
-    case 'CLEAR_ERROR':
-      return {
-        ...state,
-        error: null,
-      }
     case 'SET_LOADING':
-      return {
-        ...state,
-        isLoading: action.payload,
-      }
+      return { ...state, isLoading: action.payload }
+    case 'CLEAR_ERROR':
+      return { ...state, error: null }
     default:
       return state
   }
@@ -103,19 +90,25 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(authReducer, initialState)
+  const isInitialized = useRef(false)
 
-  // Restore session on mount
+  // Initialize Keycloak on mount
   useEffect(() => {
+    if (isInitialized.current) return
+    isInitialized.current = true
+
     const initAuth = async () => {
       try {
-        const user = await authService.restoreSession()
-        if (user) {
-          dispatch({ type: 'RESTORE_SESSION', payload: user })
+        const authenticated = await authService.init()
+        if (authenticated) {
+          const user = authService.getUserInfo()
+          dispatch({ type: 'RESTORE_SESSION', payload: user! })
         } else {
           dispatch({ type: 'SET_LOADING', payload: false })
         }
       } catch (error) {
-        console.error('Failed to restore session:', error)
+        console.error('Failed to initialize Keycloak:', error)
+         // Even on error, we stop loading to unblock UI (it will just be unauthenticated)
         dispatch({ type: 'SET_LOADING', payload: false })
       }
     }
@@ -123,27 +116,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     initAuth()
   }, [])
 
-  // Login action
-  const login = useCallback(async (credentials: LoginCredentials): Promise<void> => {
+  // Login action (Redirects to Keycloak)
+  // Note: We accept credentials to match interface but ignore them for PKCE redirect
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const login = useCallback(async (_credentials: LoginCredentials): Promise<void> => {
     dispatch({ type: 'LOGIN_START' })
-
     try {
-      const user = await authService.login(credentials)
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user })
+      await authService.login()
+      // Note: Code below this won't run due to redirect
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Login failed'
-      dispatch({ type: 'LOGIN_FAILURE', payload: message })
-      throw error
+       const message = error instanceof Error ? error.message : 'Login failed'
+       dispatch({ type: 'LOGIN_FAILURE', payload: message })
     }
   }, [])
 
   // Logout action
-  const logout = useCallback((): void => {
-    authService.logout()
+  const logout = useCallback(async (): Promise<void> => {
+    await authService.logout()
     dispatch({ type: 'LOGOUT' })
   }, [])
 
-  // Role checking
+  // Role checking (delegated to service)
   const hasRole = useCallback((role: string): boolean => {
     return authService.hasRole(role)
   }, [])
@@ -152,7 +145,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return authService.isAdmin()
   }, [])
 
-  // Clear error
   const clearError = useCallback((): void => {
     dispatch({ type: 'CLEAR_ERROR' })
   }, [])
@@ -172,5 +164,4 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-// Export context for use in useAuth hook
 export { AuthContext }

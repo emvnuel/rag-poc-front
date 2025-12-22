@@ -19,31 +19,10 @@ export interface KeycloakConfig {
 // AUTHENTICATION TYPES
 // ============================================
 
+// Deprecated: kept for interface compatibility with context, but not used for PKCE
 export interface LoginCredentials {
-  username: string
-  password: string
-}
-
-export interface TokenResponse {
-  access_token: string
-  refresh_token: string
-  expires_in: number
-  refresh_expires_in: number
-  token_type: 'Bearer'
-  scope?: string
-}
-
-export interface TokenClaims {
-  sub: string
-  preferred_username: string
-  email?: string
-  given_name?: string
-  family_name?: string
-  realm_access?: {
-    roles: string[]
-  }
-  exp: number
-  iat: number
+  username?: string
+  password?: string
 }
 
 export interface User {
@@ -76,29 +55,6 @@ export type AuthAction =
   | { type: 'SET_LOADING'; payload: boolean }
 
 // ============================================
-// AUTH SERVICE INTERFACE
-// ============================================
-
-export interface IAuthService {
-  // Authentication
-  login(credentials: LoginCredentials): Promise<User>
-  logout(): void
-
-  // Token management
-  getValidToken(): Promise<string>
-  isTokenExpired(): boolean
-  refreshAccessToken(): Promise<TokenResponse>
-
-  // User info
-  getUserInfo(): User | null
-  hasRole(role: string): boolean
-  isAdmin(): boolean
-
-  // Session
-  restoreSession(): User | null
-}
-
-// ============================================
 // AUTH CONTEXT
 // ============================================
 
@@ -116,13 +72,3 @@ export interface AuthContextValue {
   isAdmin: () => boolean
   clearError: () => void
 }
-
-// ============================================
-// STORAGE KEYS
-// ============================================
-
-export const AUTH_STORAGE_KEYS = {
-  ACCESS_TOKEN: 'access_token',
-  REFRESH_TOKEN: 'refresh_token',
-  TOKEN_EXPIRY: 'token_expiry',
-} as const

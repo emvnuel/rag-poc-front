@@ -6,7 +6,7 @@
  */
 
 import { LogOut, User as UserIcon } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import {
   DropdownMenu,
@@ -23,11 +23,9 @@ import { Button } from '@/components/ui/button'
  */
 export function UserMenu() {
   const { user, logout } = useAuth()
-  const navigate = useNavigate()
 
   const handleLogout = () => {
     logout()
-    navigate('/login')
   }
 
   // Identify user display name

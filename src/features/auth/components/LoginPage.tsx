@@ -1,16 +1,16 @@
 /**
  * Login page component.
  *
- * Full-page login form with branding and redirect handling.
- * Redirects authenticated users to the original destination.
+ * Redirects to Keycloak login page or shows validation errors.
  */
 
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { LoginForm } from './LoginForm'
+import { Button } from '@/components/ui/button'
 import { useAuth } from '../hooks/useAuth'
 import { ROUTES } from '@/lib/routes'
+import { LogIn } from 'lucide-react'
 
 /**
  * Login page with centered card layout.
@@ -18,63 +18,57 @@ import { ROUTES } from '@/lib/routes'
 export function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, isAuthenticated, isLoading, error, clearError } = useAuth()
+  const { login, isAuthenticated, isLoading, error } = useAuth()
 
   // Get the page user was trying to access, or default to home
   const from = (location.state as { from?: string })?.from || ROUTES.HOME
 
   // Redirect if already authenticated
   useEffect(() => {
-    if (isAuthenticated && !isLoading) {
+    if (isAuthenticated) {
       navigate(from, { replace: true })
     }
-  }, [isAuthenticated, isLoading, navigate, from])
+  }, [isAuthenticated, navigate, from])
 
-  // Clear error when component unmounts
-  useEffect(() => {
-    return () => {
-      clearError()
-    }
-  }, [clearError])
-
-  const handleLogin = async (credentials: { username: string; password: string }) => {
-    try {
-      await login(credentials)
-      // Navigation handled by useEffect above
-    } catch {
-      // Error is handled by the auth context
-    }
-  }
-
-  // Show loading while checking auth state
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-pulse text-muted-foreground">Loading...</div>
-      </div>
-    )
+  const handleLogin = async () => {
+    await login({ username: '', password: '' })
   }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
+          <CardTitle className="text-2xl font-bold">RAG SaaS Platform</CardTitle>
           <CardDescription>
-            Sign in to your account to continue
+            Secure Enterprise Knowledge Base
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <LoginForm
-            onSubmit={handleLogin}
-            isLoading={isLoading}
-            error={error}
-          />
+        <CardContent className="space-y-4">
+          
+          {error && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive opacity-90" role="alert">
+              {error}
+            </div>
+          )}
+
+          {isLoading ? (
+             <div className="flex justify-center p-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+             </div>
+          ) : (
+            <Button onClick={handleLogin} className="w-full" size="lg">
+              <LogIn className="mr-2 h-4 w-4" />
+              Sign In with SSO
+            </Button>
+          )}
+
+          <p className="text-center text-xs text-muted-foreground mt-4">
+            You will be redirected to our secure identity provider.
+          </p>
         </CardContent>
       </Card>
     </div>
   )
 }
 
-// Default export for lazy loading
 export default LoginPage

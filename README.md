@@ -45,7 +45,7 @@ VITE_KEYCLOAK_CLIENT_ID=rag-saas-api
 
 ### Features
 
-- **Login**: Username/Password login via Keycloak (Resource Owner Password Credentials Grant)
+- **Login**: Secure redirect to Keycloak login page (Authorization Code Flow with PKCE)
 - **Logout**: Secure logout terminating both app and Keycloak sessions
 - **RBAC**: Role-based access control (Admin/User roles)
 - **Auto Refresh**: Token is automatically refreshed before expiration
