@@ -6,6 +6,7 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { projectUpdateSchema } from '@/lib/validators/project';
 import type { ProjectInfoResponse, ProjectUpdateRequest } from '@/services/api/generated/types.gen';
@@ -37,6 +38,7 @@ export interface EditProjectDialogProps {
  * @param props.project - Project to edit (null if dialog is closed)
  */
 export const EditProjectDialog = ({ open, onOpenChange, project }: EditProjectDialogProps) => {
+  const { t } = useTranslation();
   const { mutate: updateProject, isPending } = useUpdateProject();
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ProjectUpdateRequest>({
     resolver: zodResolver(projectUpdateSchema),
@@ -72,18 +74,18 @@ export const EditProjectDialog = ({ open, onOpenChange, project }: EditProjectDi
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Project</DialogTitle>
+          <DialogTitle>{t('editProjectDialog.title')}</DialogTitle>
           <DialogDescription>
-            Update your project details.
+            {t('editProjectDialog.description')}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Project Name</Label>
+            <Label htmlFor="name">{t('createProjectDialog.projectName')}</Label>
             <Input
               id="name"
-              placeholder="My Knowledge Base"
+              placeholder={t('createProjectDialog.placeholder')}
               {...register('name')}
               disabled={isPending}
             />
@@ -94,10 +96,10 @@ export const EditProjectDialog = ({ open, onOpenChange, project }: EditProjectDi
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={handleClose} disabled={isPending}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'Updating...' : 'Update Project'}
+              {isPending ? t('editProjectDialog.saving') : t('editProjectDialog.saveChanges')}
             </Button>
           </DialogFooter>
         </form>

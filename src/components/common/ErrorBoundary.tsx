@@ -1,4 +1,5 @@
 import { Component, type ReactNode } from 'react'
+import i18n from '@/lib/i18n'
 import { Button } from '@/components/ui/button'
 
 interface Props {
@@ -41,11 +42,11 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex min-h-screen items-center justify-center p-4">
           <div className="max-w-md text-center">
-            <h1 className="mb-4 text-2xl md:text-3xl lg:text-4xl font-bold">Something went wrong</h1>
+            <h1 className="mb-4 text-2xl md:text-3xl lg:text-4xl font-bold">{i18n.t('errors.generic')}</h1>
             <p className="mb-6 text-muted-foreground">
-              {this.state.error?.message || 'An unexpected error occurred'}
+              {this.state.error?.message || i18n.t('errors.unexpected')}
             </p>
-            <Button onClick={this.handleReset}>Try again</Button>
+            <Button onClick={this.handleReset}>{i18n.t('common.tryAgain')}</Button>
           </div>
         </div>
       )

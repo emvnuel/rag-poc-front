@@ -5,7 +5,13 @@
  * timeout management, and request/response interceptors.
  */
 
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios'
+import { authService } from '../../features/auth/services/auth-service'
+
+// Extend Axios config to support retry flag
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:42069'
 const API_TIMEOUT = 10000 // 10 seconds default
@@ -44,14 +50,39 @@ export const httpClient = axios.create({
   },
 })
 
-// Request interceptor: Add auth headers (future) and adjust timeout for uploads and chat
+// Request interceptor: Add auth headers and adjust timeout
 httpClient.interceptors.request.use(
-  (config) => {
-    // TODO: Add JWT token when auth is implemented
-    // const token = getAuthToken();
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+  async (config) => {
+    // Add JWT token if we have a valid session
+    // Skip for auth endpoints to avoid circular loops if using client for auth (though AuthService uses fetch)
+    const isAuthRequest = config.url?.includes('/protocol/openid-connect/')
+    
+    if (!isAuthRequest) {
+      try {
+        // Only attempt to get token if we have one or think we do
+        if (authService.hasValidSession()) {
+          const token = await authService.getValidToken()
+          if (token) {
+            config.headers.Authorization = `Bearer ${token}`
+          }
+        } else {
+          // If we don't have a valid session, check if we have a refresh token to try
+          // Or just let the request go through (might be a public endpoint)
+          // But if we have a stored token that might be expired, getValidToken will refresh it
+          const user = authService.getUserInfo()
+          if (user) {
+             const token = await authService.getValidToken()
+             if (token) {
+               config.headers.Authorization = `Bearer ${token}`
+             }
+          }
+        }
+      } catch (error) {
+        // Silent fail for token retrieval - request might not need auth
+        // or auth service will handle logout if critical
+        console.warn('Failed to attach auth token', error)
+      }
+    }
 
     // Increase timeout for file uploads
     if (config.data instanceof FormData) {
@@ -73,11 +104,31 @@ httpClient.interceptors.request.use(
 // Response interceptor: Handle errors globally
 httpClient.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
-    // Handle specific error codes
-    if (error.response?.status === 401) {
-      // TODO: Redirect to login when auth is implemented
-      console.error('Unauthorized access')
+  async (error: AxiosError) => {
+    const originalRequest = error.config as CustomAxiosRequestConfig
+
+    // Handle 401 Unauthorized - Attempt Token Refresh
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+      originalRequest._retry = true
+
+      try {
+        // Attempt to refresh the token
+        const tokenResponse = await authService.refreshAccessToken()
+        
+        // Update the header with the new token
+        originalRequest.headers.Authorization = `Bearer ${tokenResponse.access_token}`
+        
+        // Retry the original request
+        return httpClient(originalRequest)
+      } catch (refreshError) {
+        // Refresh failed - user session is invalid
+        console.error('Token refresh failed, logging out', refreshError)
+        authService.logout()
+        
+        // Redirect to login
+        window.location.href = '/login'
+        return Promise.reject(refreshError)
+      }
     }
 
     if (error.response?.status === 429) {

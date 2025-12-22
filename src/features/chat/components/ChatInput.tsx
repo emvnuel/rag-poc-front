@@ -5,6 +5,7 @@
  */
 
 import { useState, type KeyboardEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 
 export interface ChatInputProps {
@@ -27,7 +28,8 @@ export interface ChatInputProps {
  * @param props.disabled - Whether input should be disabled (e.g., during API call)
  * @param props.placeholder - Optional placeholder text
  */
-export const ChatInput = ({ onSend, disabled, placeholder = 'Ask a question...' }: ChatInputProps) => {
+export const ChatInput = ({ onSend, disabled, placeholder }: ChatInputProps) => {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
 
   const handleSend = () => {
@@ -52,7 +54,7 @@ export const ChatInput = ({ onSend, disabled, placeholder = 'Ask a question...' 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={placeholder}
+          placeholder={placeholder || t('chat.askQuestion')}
           disabled={disabled}
           rows={3}
           className="flex-1 resize-none rounded-md border border-input bg-background px-3 py-2 text-base md:text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -62,11 +64,11 @@ export const ChatInput = ({ onSend, disabled, placeholder = 'Ask a question...' 
           disabled={disabled || !input.trim()}
           className="self-end h-11 md:h-10 px-4 md:px-3 text-sm"
         >
-          Send
+          {t('common.send')}
         </Button>
       </div>
       <div className="mt-2 text-xs text-muted-foreground">
-        Press Enter to send, Shift+Enter for new line
+        {t('chat.sendHint')}
       </div>
     </div>
   );

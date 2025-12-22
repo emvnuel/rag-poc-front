@@ -1,8 +1,12 @@
 import { useParams, useLocation, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 import { MobileNav } from '@/components/layout/MobileNav';
 import { ProjectSelector } from '@/features/projects/components/ProjectSelector';
 import { useRoutePreload } from '@/hooks/useRoutePreload';
+import { UserMenu } from '@/features/auth/components/UserMenu';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 /**
  * Header component with workspace selector, mobile navigation, and theme toggle
@@ -12,9 +16,11 @@ import { useRoutePreload } from '@/hooks/useRoutePreload';
  * - Desktop (>= 1024px): Shows inline navigation and project selector
  */
 export function Header() {
+  const { t } = useTranslation();
   const { projectId } = useParams<{ projectId: string }>();
   const location = useLocation();
   const preload = useRoutePreload();
+  const { isAuthenticated } = useAuth();
   
   // Show project selector only when on project-specific pages
   const isProjectPage = location.pathname.includes('/projects/');
@@ -31,7 +37,7 @@ export function Header() {
             className="min-h-[44px] flex items-center"
           >
             <span className="text-lg md:text-xl lg:text-2xl font-bold hover:opacity-80 transition-opacity">
-              RAG Platform
+              {t('header.title')}
             </span>
           </Link>
           {isProjectPage && (
@@ -40,7 +46,11 @@ export function Header() {
             </div>
           )}
         </div>
-        <ThemeToggle />
+        <div className="flex items-center gap-1">
+          {isAuthenticated && <UserMenu />}
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

@@ -3,6 +3,7 @@
  * Shows a persistent banner at the top of the screen
  */
 
+import { useTranslation } from 'react-i18next';
 import { WifiOff } from 'lucide-react';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
@@ -17,6 +18,7 @@ import { useOnlineStatus } from '@/hooks/useOnlineStatus';
  * </Layout>
  */
 export function OfflineBanner() {
+  const { t } = useTranslation();
   const isOnline = useOnlineStatus();
 
   if (isOnline) {
@@ -31,7 +33,7 @@ export function OfflineBanner() {
     >
       <div className="container flex items-center justify-center gap-2 text-sm font-medium">
         <WifiOff className="h-4 w-4" />
-        <span>No internet connection. Some features may be unavailable.</span>
+        <span>{t('errors.networkError')}</span>
       </div>
     </div>
   );
