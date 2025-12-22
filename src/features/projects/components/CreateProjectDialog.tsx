@@ -5,6 +5,7 @@
  */
 
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { projectCreateSchema } from '@/lib/validators/project';
 import type { ProjectCreateRequest } from '@/services/api/generated/types.gen';
@@ -33,6 +34,7 @@ export interface CreateProjectDialogProps {
  * @param props.onOpenChange - Callback to change dialog state
  */
 export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogProps) => {
+  const { t } = useTranslation();
   const { mutate: createProject, isPending } = useCreateProject();
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ProjectCreateRequest>({
     resolver: zodResolver(projectCreateSchema),
@@ -56,18 +58,18 @@ export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogP
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="p-4 md:p-6">
         <DialogHeader>
-          <DialogTitle className="text-lg md:text-xl">Create New Project</DialogTitle>
+          <DialogTitle className="text-lg md:text-xl">{t('createProjectDialog.title')}</DialogTitle>
           <DialogDescription className="text-sm">
-            Create a new workspace to organize your documents and knowledge base.
+            {t('createProjectDialog.description')}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm">Project Name</Label>
+            <Label htmlFor="name" className="text-sm">{t('createProjectDialog.projectName')}</Label>
             <Input
               id="name"
-              placeholder="My Knowledge Base"
+              placeholder={t('createProjectDialog.placeholder')}
               {...register('name')}
               disabled={isPending}
               className="h-11 md:h-10 text-base"
@@ -79,10 +81,10 @@ export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogP
 
           <DialogFooter className="flex-col sm:flex-row gap-2">
             <Button type="button" variant="outline" onClick={handleClose} disabled={isPending} className="h-11 md:h-10">
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button type="submit" disabled={isPending} className="h-11 md:h-10">
-              {isPending ? 'Creating...' : 'Create Project'}
+              {isPending ? t('createProjectDialog.creating') : t('createProjectDialog.createProject')}
             </Button>
           </DialogFooter>
         </form>

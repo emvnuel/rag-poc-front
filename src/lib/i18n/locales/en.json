@@ -1,0 +1,154 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "send": "Send",
+    "refresh": "Refresh",
+    "tryAgain": "Try again",
+    "close": "Close",
+    "search": "Search",
+    "noResults": "No results found",
+    "uploading": "Uploading...",
+    "processing": "Processing..."
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "unexpected": "An unexpected error occurred",
+    "noProjectId": "Error: No project ID provided",
+    "networkError": "No internet connection. Some features may be unavailable."
+  },
+  "header": {
+    "title": "RAG Platform"
+  },
+  "navigation": {
+    "home": "Home",
+    "documents": "Documents",
+    "chat": "Chat",
+    "knowledgeGraph": "Knowledge Graph",
+    "menu": "Menu"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Manage your knowledge base workspaces",
+    "createProject": "Create Project",
+    "noProjectsYet": "No projects yet",
+    "createFirstProject": "Create your first project to get started.",
+    "documents": "documents",
+    "viewDocuments": "View Documents",
+    "openChat": "Open Chat",
+    "editProject": "Edit Project",
+    "deleteProject": "Delete Project"
+  },
+  "createProjectDialog": {
+    "title": "Create New Project",
+    "description": "Create a new workspace to organize your documents and knowledge base.",
+    "projectName": "Project Name",
+    "placeholder": "My Knowledge Base",
+    "creating": "Creating...",
+    "createProject": "Create Project"
+  },
+  "editProjectDialog": {
+    "title": "Edit Project",
+    "description": "Update the project name.",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes"
+  },
+  "deleteProjectDialog": {
+    "title": "Delete Project",
+    "confirmMessage": "Are you sure you want to delete \"{{name}}\"?",
+    "warning": "This action cannot be undone. All documents and data associated with this project will be permanently deleted.",
+    "deleting": "Deleting...",
+    "deleteProject": "Delete Project"
+  },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "Upload and manage your knowledge base",
+    "uploadDocuments": "Upload Documents",
+    "yourDocuments": "Your Documents",
+    "noDocuments": "No documents yet",
+    "uploadFirst": "Upload your first document to get started.",
+    "searchPlaceholder": "Search documents...",
+    "filters": "Filters",
+    "sort": "Sort",
+    "sortBy": "Sort by",
+    "sortOrder": "Sort order",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "name": "Name",
+    "date": "Date",
+    "status": "Status",
+    "type": "Type"
+  },
+  "upload": {
+    "fileUpload": "File Upload",
+    "file": "File",
+    "text": "Text",
+    "website": "Website",
+    "web": "Web",
+    "dragAndDrop": "Drag & drop files here, or click to select",
+    "dropFilesHere": "Drop files here...",
+    "supportedFormats": "Supports PDF, DOCX, TXT, MD • Max 25MB per file • Up to 10 files at once",
+    "exceedsLimit": "{{name}} exceeds 25MB limit",
+    "unsupportedType": "{{name}} is not a supported file type",
+    "textContent": "Text Content",
+    "textPlaceholder": "Paste your text here...",
+    "uploadText": "Upload Text"
+  },
+  "bulkActions": {
+    "selected": "{{count}} selected",
+    "clearSelection": "Clear selection",
+    "deleteSelected": "Delete selected"
+  },
+  "documentDetail": {
+    "details": "Details",
+    "content": "Content",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at",
+    "fileSize": "File size",
+    "chunks": "Chunks"
+  },
+  "deleteDocumentDialog": {
+    "title": "Delete Document",
+    "confirmMessage": "Are you sure you want to delete \"{{name}}\"?",
+    "warning": "This action cannot be undone."
+  },
+  "chat": {
+    "title": "Chat",
+    "newSession": "New Session",
+    "new": "New",
+    "noProjectSelected": "No Project Selected",
+    "selectProjectPrompt": "Please select a project from the workspace selector to start chatting.",
+    "askQuestion": "Ask a question...",
+    "sendHint": "Press Enter to send, Shift+Enter for new line",
+    "errorMessage": "Sorry, I encountered an error. Please try again.",
+    "noRelevantInfo": "No relevant information found."
+  },
+  "chatEmptyState": {
+    "title": "Start a Conversation",
+    "description": "Ask questions about your uploaded documents and get answers with source citations.",
+    "tryAsking": "Try asking:",
+    "suggestion1": "What are the key points in the uploaded documents?",
+    "suggestion2": "Can you summarize the main topics?",
+    "suggestion3": "What information is available about [specific topic]?",
+    "suggestion4": "How are these concepts related?"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggleTheme": "Toggle theme"
+  },
+  "language": {
+    "selectLanguage": "Select language",
+    "currentLanguage": "Language"
+  },
+  "projectSelector": {
+    "selectProject": "Select a project",
+    "noProjects": "No projects available"
+  }
+}

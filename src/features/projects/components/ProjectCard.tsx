@@ -5,6 +5,7 @@
  */
 
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { ProjectInfoResponse } from '@/services/api/generated/types.gen';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -32,6 +33,7 @@ export interface ProjectCardProps {
  * @param props.onDelete - Optional callback for delete action
  */
 export const ProjectCard = ({ project, onEdit, onDelete }: ProjectCardProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const preload = useRoutePreload();
 
@@ -69,7 +71,7 @@ export const ProjectCard = ({ project, onEdit, onDelete }: ProjectCardProps) => 
                 e.stopPropagation();
                 onEdit(project);
               }}>
-                Edit
+                {t('common.edit')}
               </DropdownMenuItem>
             )}
             {onDelete && (
@@ -80,7 +82,7 @@ export const ProjectCard = ({ project, onEdit, onDelete }: ProjectCardProps) => 
                 }}
                 className="text-destructive"
               >
-                Delete
+                {t('common.delete')}
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>
@@ -90,7 +92,7 @@ export const ProjectCard = ({ project, onEdit, onDelete }: ProjectCardProps) => 
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Badge variant="secondary">
-              {project.documentCount ?? 0} documents
+              {project.documentCount ?? 0} {t('projects.documents')}
             </Badge>
           </div>
           <div className="text-xs text-muted-foreground">

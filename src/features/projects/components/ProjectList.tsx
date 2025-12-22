@@ -5,6 +5,7 @@
  */
 
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { ProjectInfoResponse } from '@/services/api/generated/types.gen';
 import { ProjectCard } from './ProjectCard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -32,6 +33,8 @@ export interface ProjectListProps {
  * @param props.onDelete - Optional callback for delete action
  */
 export const ProjectList = memo(function ProjectList({ projects, isLoading, onEdit, onDelete }: ProjectListProps) {
+  const { t } = useTranslation();
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
@@ -46,8 +49,8 @@ export const ProjectList = memo(function ProjectList({ projects, isLoading, onEd
     return (
       <div className="text-center py-8 md:py-12 px-4">
         <div className="text-muted-foreground space-y-2">
-          <p className="text-base md:text-lg font-semibold">No projects yet</p>
-          <p className="text-sm">Create your first project to get started.</p>
+          <p className="text-base md:text-lg font-semibold">{t('projects.noProjectsYet')}</p>
+          <p className="text-sm">{t('projects.createFirstProject')}</p>
         </div>
       </div>
     );

@@ -5,6 +5,7 @@
  */
 
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { SearchResult } from '@/services/api/generated/types.gen';
 import { ChatMessageList } from './ChatMessageList';
 import { ChatInput } from './ChatInput';
@@ -34,6 +35,7 @@ export interface ChatInterfaceProps {
  * @param props.projectId - ID of the current project/workspace
  */
 export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
+  const { t } = useTranslation();
   const { messages, addMessage, clearMessages, getHistory } = useChatSession();
   const { mutate: sendMessage, isPending } = useSendChatMessage();
   const showLoading = useDelayedLoading(isPending);
@@ -64,7 +66,7 @@ export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
       {
         onSuccess: (response) => {
           // Add assistant response
-          const assistantMessage = response.response || 'No relevant information found.';
+          const assistantMessage = response.response || t('chat.noRelevantInfo');
           addMessage({ role: 'assistant', content: assistantMessage });
           
           // Store sources for citation lookup
@@ -76,7 +78,7 @@ export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
           // Add error message as assistant response
           addMessage({
             role: 'assistant',
-            content: 'Sorry, I encountered an error. Please try again.',
+            content: t('chat.errorMessage'),
           });
         },
       }
@@ -96,11 +98,11 @@ export const ChatInterface = ({ projectId }: ChatInterfaceProps) => {
     <div className="flex flex-col flex-1">
       {/* Header with new session button */}
       <div className="border-b bg-background p-3 md:p-4 flex justify-between items-center flex-shrink-0">
-        <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">Chat</h1>
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">{t('chat.title')}</h1>
         {messages.length > 0 && (
           <Button variant="outline" size="sm" onClick={handleNewSession} className="h-9 md:h-8 text-sm">
-            <span className="hidden sm:inline">New Session</span>
-            <span className="sm:hidden">New</span>
+            <span className="hidden sm:inline">{t('chat.newSession')}</span>
+            <span className="sm:hidden">{t('chat.new')}</span>
           </Button>
         )}
       </div>

@@ -10,11 +10,16 @@ import { Layout } from '@/components/layout/Layout'
 import { LoadingFallback } from '@/components/common/LoadingFallback'
 import { queryClient } from '@/lib/query-client'
 import { ROUTES } from '@/lib/routes'
+import { AuthProvider } from '@/features/auth/AuthProvider'
 
 // Lazy load page components for code splitting
 const ProjectsPage = lazy(() => import('@/pages/ProjectsPage').then(m => ({ default: m.ProjectsPage })))
 const DocumentsPage = lazy(() => import('@/pages/DocumentsPage').then(m => ({ default: m.DocumentsPage })))
 const ChatPage = lazy(() => import('@/pages/ChatPage').then(m => ({ default: m.ChatPage })))
+const LoginPage = lazy(() => import('@/features/auth/components/LoginPage'))
+
+// Import ProtectedRoute for authentication
+import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute'
 
 // Placeholder pages - will be implemented in later phases
 function KnowledgeGraphPage() {
@@ -29,21 +34,44 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <WorkspaceProvider>
+          <AuthProvider>
+            <WorkspaceProvider>
             <BrowserRouter>
               <Layout>
                 <Suspense fallback={<LoadingFallback />}>
                   <Routes>
-                    <Route path={ROUTES.HOME} element={<ProjectsPage />} />
-                    <Route path="/projects/:projectId/documents" element={<DocumentsPage />} />
-                    <Route path="/projects/:projectId/chat" element={<ChatPage />} />
-                    <Route path="/projects/:projectId/knowledge-graph" element={<KnowledgeGraphPage />} />
+                    {/* Public route - Login */}
+                    <Route path="/login" element={<LoginPage />} />
+                    
+                    {/* Protected routes */}
+                    <Route path={ROUTES.HOME} element={
+                      <ProtectedRoute>
+                        <ProjectsPage />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/projects/:projectId/documents" element={
+                      <ProtectedRoute>
+                        <DocumentsPage />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/projects/:projectId/chat" element={
+                      <ProtectedRoute>
+                        <ChatPage />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/projects/:projectId/knowledge-graph" element={
+                      <ProtectedRoute>
+                        <KnowledgeGraphPage />
+                      </ProtectedRoute>
+                    } />
                   </Routes>
                 </Suspense>
               </Layout>
             </BrowserRouter>
+
+            </WorkspaceProvider>
             <Toaster />
-          </WorkspaceProvider>
+          </AuthProvider>
           {import.meta.env.VITE_ENABLE_DEVTOOLS !== 'false' && (
             <ReactQueryDevtools initialIsOpen={false} />
           )}

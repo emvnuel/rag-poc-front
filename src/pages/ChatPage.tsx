@@ -5,6 +5,7 @@
  */
 
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ChatInterface } from '@/features/chat/components/ChatInterface';
 
 /**
@@ -14,15 +15,16 @@ import { ChatInterface } from '@/features/chat/components/ChatInterface';
  * Shows error state if no project ID is present.
  */
 export const ChatPage = () => {
+  const { t } = useTranslation();
   const { projectId } = useParams<{ projectId: string }>();
 
   if (!projectId) {
     return (
       <div className="flex items-center justify-center h-full px-4">
         <div className="text-center space-y-2">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">No Project Selected</h2>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">{t('chat.noProjectSelected')}</h2>
           <p className="text-sm md:text-base text-muted-foreground">
-            Please select a project from the workspace selector to start chatting.
+            {t('chat.selectProjectPrompt')}
           </p>
         </div>
       </div>

@@ -1,0 +1,154 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "create": "Criar",
+    "send": "Enviar",
+    "refresh": "Atualizar",
+    "tryAgain": "Tentar novamente",
+    "close": "Fechar",
+    "search": "Buscar",
+    "noResults": "Nenhum resultado encontrado",
+    "uploading": "Enviando...",
+    "processing": "Processando..."
+  },
+  "errors": {
+    "generic": "Algo deu errado",
+    "unexpected": "Ocorreu um erro inesperado",
+    "noProjectId": "Erro: Nenhum ID de projeto fornecido",
+    "networkError": "Sem conexão com a internet. Algumas funcionalidades podem estar indisponíveis."
+  },
+  "header": {
+    "title": "Plataforma RAG"
+  },
+  "navigation": {
+    "home": "Início",
+    "documents": "Documentos",
+    "chat": "Chat",
+    "knowledgeGraph": "Grafo de Conhecimento",
+    "menu": "Menu"
+  },
+  "projects": {
+    "title": "Projetos",
+    "subtitle": "Gerencie seus espaços de trabalho de base de conhecimento",
+    "createProject": "Criar Projeto",
+    "noProjectsYet": "Nenhum projeto ainda",
+    "createFirstProject": "Crie seu primeiro projeto para começar.",
+    "documents": "documentos",
+    "viewDocuments": "Ver Documentos",
+    "openChat": "Abrir Chat",
+    "editProject": "Editar Projeto",
+    "deleteProject": "Excluir Projeto"
+  },
+  "createProjectDialog": {
+    "title": "Criar Novo Projeto",
+    "description": "Crie um novo espaço de trabalho para organizar seus documentos e base de conhecimento.",
+    "projectName": "Nome do Projeto",
+    "placeholder": "Minha Base de Conhecimento",
+    "creating": "Criando...",
+    "createProject": "Criar Projeto"
+  },
+  "editProjectDialog": {
+    "title": "Editar Projeto",
+    "description": "Atualize o nome do projeto.",
+    "saving": "Salvando...",
+    "saveChanges": "Salvar Alterações"
+  },
+  "deleteProjectDialog": {
+    "title": "Excluir Projeto",
+    "confirmMessage": "Tem certeza que deseja excluir \"{{name}}\"?",
+    "warning": "Esta ação não pode ser desfeita. Todos os documentos e dados associados a este projeto serão permanentemente excluídos.",
+    "deleting": "Excluindo...",
+    "deleteProject": "Excluir Projeto"
+  },
+  "documents": {
+    "title": "Documentos",
+    "subtitle": "Envie e gerencie sua base de conhecimento",
+    "uploadDocuments": "Enviar Documentos",
+    "yourDocuments": "Seus Documentos",
+    "noDocuments": "Nenhum documento ainda",
+    "uploadFirst": "Envie seu primeiro documento para começar.",
+    "searchPlaceholder": "Buscar documentos...",
+    "filters": "Filtros",
+    "sort": "Ordenar",
+    "sortBy": "Ordenar por",
+    "sortOrder": "Ordem",
+    "ascending": "Crescente",
+    "descending": "Decrescente",
+    "name": "Nome",
+    "date": "Data",
+    "status": "Status",
+    "type": "Tipo"
+  },
+  "upload": {
+    "fileUpload": "Envio de Arquivo",
+    "file": "Arquivo",
+    "text": "Texto",
+    "website": "Website",
+    "web": "Web",
+    "dragAndDrop": "Arraste e solte arquivos aqui, ou clique para selecionar",
+    "dropFilesHere": "Solte os arquivos aqui...",
+    "supportedFormats": "Suporta PDF, DOCX, TXT, MD • Máx 25MB por arquivo • Até 10 arquivos por vez",
+    "exceedsLimit": "{{name}} excede o limite de 25MB",
+    "unsupportedType": "{{name}} não é um tipo de arquivo suportado",
+    "textContent": "Conteúdo de Texto",
+    "textPlaceholder": "Cole seu texto aqui...",
+    "uploadText": "Enviar Texto"
+  },
+  "bulkActions": {
+    "selected": "{{count}} selecionado(s)",
+    "clearSelection": "Limpar seleção",
+    "deleteSelected": "Excluir selecionados"
+  },
+  "documentDetail": {
+    "details": "Detalhes",
+    "content": "Conteúdo",
+    "createdAt": "Criado em",
+    "updatedAt": "Atualizado em",
+    "fileSize": "Tamanho do arquivo",
+    "chunks": "Fragmentos"
+  },
+  "deleteDocumentDialog": {
+    "title": "Excluir Documento",
+    "confirmMessage": "Tem certeza que deseja excluir \"{{name}}\"?",
+    "warning": "Esta ação não pode ser desfeita."
+  },
+  "chat": {
+    "title": "Chat",
+    "newSession": "Nova Sessão",
+    "new": "Novo",
+    "noProjectSelected": "Nenhum Projeto Selecionado",
+    "selectProjectPrompt": "Por favor, selecione um projeto no seletor de área de trabalho para começar a conversar.",
+    "askQuestion": "Faça uma pergunta...",
+    "sendHint": "Pressione Enter para enviar, Shift+Enter para nova linha",
+    "errorMessage": "Desculpe, encontrei um erro. Por favor, tente novamente.",
+    "noRelevantInfo": "Nenhuma informação relevante encontrada."
+  },
+  "chatEmptyState": {
+    "title": "Iniciar uma Conversa",
+    "description": "Faça perguntas sobre seus documentos enviados e receba respostas com citações das fontes.",
+    "tryAsking": "Tente perguntar:",
+    "suggestion1": "Quais são os pontos principais nos documentos enviados?",
+    "suggestion2": "Você pode resumir os principais tópicos?",
+    "suggestion3": "Quais informações estão disponíveis sobre [tópico específico]?",
+    "suggestion4": "Como esses conceitos estão relacionados?"
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema",
+    "toggleTheme": "Alternar tema"
+  },
+  "language": {
+    "selectLanguage": "Selecionar idioma",
+    "currentLanguage": "Idioma"
+  },
+  "projectSelector": {
+    "selectProject": "Selecione um projeto",
+    "noProjects": "Nenhum projeto disponível"
+  }
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { FileText, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { UploadTabs } from '@/features/documents/components/UploadTabs'
@@ -19,6 +20,7 @@ import type { Document } from '@/types/document'
  * Main documents page integrating upload, list, and management features
  */
 export function DocumentsPage() {
+  const { t } = useTranslation()
   const { projectId } = useParams<{ projectId: string }>()
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null)
   const [detailDialogOpen, setDetailDialogOpen] = useState(false)
@@ -79,7 +81,7 @@ export function DocumentsPage() {
     return (
       <div className="container max-w-6xl py-8">
         <div className="text-center">
-          <p className="text-destructive">Error: No project ID provided</p>
+          <p className="text-destructive">{t('errors.noProjectId')}</p>
         </div>
       </div>
     )
@@ -94,9 +96,9 @@ export function DocumentsPage() {
             <FileText className="h-5 w-5 md:h-6 md:w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Documents</h1>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">{t('documents.title')}</h1>
             <p className="text-xs md:text-sm text-muted-foreground">
-              Upload and manage your knowledge base
+              {t('documents.subtitle')}
             </p>
           </div>
         </div>
@@ -110,13 +112,13 @@ export function DocumentsPage() {
           <RefreshCw
             className={`h-4 w-4 mr-2 ${isRefetching ? 'animate-spin' : ''}`}
           />
-          Refresh
+          {t('common.refresh')}
         </Button>
       </div>
 
       {/* Upload Section */}
       <div className="mb-6 md:mb-8">
-        <h2 className="text-base md:text-lg lg:text-xl font-semibold mb-4">Upload Documents</h2>
+        <h2 className="text-base md:text-lg lg:text-xl font-semibold mb-4">{t('documents.uploadDocuments')}</h2>
         <UploadTabs projectId={projectId} />
       </div>
 
@@ -124,7 +126,7 @@ export function DocumentsPage() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base md:text-lg lg:text-xl font-semibold">
-            Your Documents
+            {t('documents.yourDocuments')}
             {!isLoading && (
               <span className="text-xs md:text-sm font-normal text-muted-foreground ml-2">
                 ({documents.length})

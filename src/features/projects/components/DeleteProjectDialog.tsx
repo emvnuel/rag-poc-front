@@ -4,6 +4,7 @@
  * Modal dialog with confirmation prompt before deleting a project.
  */
 
+import { useTranslation } from 'react-i18next';
 import type { ProjectInfoResponse } from '@/services/api/generated/types.gen';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -33,6 +34,7 @@ export interface DeleteProjectDialogProps {
  * @param props.onSuccess - Optional callback after successful deletion
  */
 export const DeleteProjectDialog = ({ open, onOpenChange, project, onSuccess }: DeleteProjectDialogProps) => {
+  const { t } = useTranslation();
   const { mutate: deleteProject, isPending } = useDeleteProject();
 
   const handleDelete = () => {
@@ -50,24 +52,24 @@ export const DeleteProjectDialog = ({ open, onOpenChange, project, onSuccess }: 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Project</DialogTitle>
+          <DialogTitle>{t('deleteProjectDialog.title')}</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete &quot;{project?.name}&quot;?
+            {t('deleteProjectDialog.confirmMessage', { name: project?.name })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="py-4">
           <p className="text-sm text-muted-foreground">
-            This action cannot be undone. All documents and data associated with this project will be permanently deleted.
+            {t('deleteProjectDialog.warning')}
           </p>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isPending}>
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button variant="destructive" onClick={handleDelete} disabled={isPending}>
-            {isPending ? 'Deleting...' : 'Delete Project'}
+            {isPending ? t('deleteProjectDialog.deleting') : t('deleteProjectDialog.deleteProject')}
           </Button>
         </DialogFooter>
       </DialogContent>

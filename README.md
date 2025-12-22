@@ -12,6 +12,7 @@ A modern, production-ready React application for building team knowledge bases w
 - **Real-time Processing** - Live progress tracking for document ingestion
 - **Advanced Search** - Filter, sort, and search across your knowledge base
 - **Bulk Operations** - Multi-select and batch delete documents
+- **Authentication** - Secure login with Keycloak and Role-Based Access Control (RBAC)
 
 ### User Experience
 
@@ -26,6 +27,28 @@ A modern, production-ready React application for building team knowledge bases w
 - **Offline Detection** - Graceful handling of network issues
 - **Optimistic UI** - Instant feedback for user actions
 - **Loading States** - 200ms delayed indicators to prevent flashing
+
+## Authentication
+
+This application uses Keycloak for authentication.
+
+### Configuration
+
+Add the following environment variables to your `.env` file:
+
+```env
+# Keycloak Configuration
+VITE_KEYCLOAK_URL=http://localhost:8180
+VITE_KEYCLOAK_REALM=rag-saas
+VITE_KEYCLOAK_CLIENT_ID=rag-saas-api
+```
+
+### Features
+
+- **Login**: Secure redirect to Keycloak login page (Authorization Code Flow with PKCE)
+- **Logout**: Secure logout terminating both app and Keycloak sessions
+- **RBAC**: Role-based access control (Admin/User roles)
+- **Auto Refresh**: Token is automatically refreshed before expiration
 
 ## Tech Stack
 
@@ -68,17 +91,18 @@ The platform is fully responsive across all device types with a mobile-first app
 
 ### Breakpoints
 
-| Breakpoint | Min Width | Target Devices | Layout Strategy |
-|------------|-----------|----------------|-----------------|
-| Mobile (base) | 0px | Phones (320px-480px) | Single-column, stacked elements, hamburger menu |
-| Small (sm:) | 640px | Large phones, small tablets | Enhanced spacing, 2-column grids where appropriate |
-| Medium (md:) | 768px | Tablets | 2-column layouts, expanded navigation |
-| Large (lg:) | 1024px | Desktops, large tablets | Multi-column grids, sidebars, inline navigation |
-| Extra Large (xl:) | 1280px | Large desktops | 4-column grids, generous spacing |
+| Breakpoint        | Min Width | Target Devices              | Layout Strategy                                    |
+| ----------------- | --------- | --------------------------- | -------------------------------------------------- |
+| Mobile (base)     | 0px       | Phones (320px-480px)        | Single-column, stacked elements, hamburger menu    |
+| Small (sm:)       | 640px     | Large phones, small tablets | Enhanced spacing, 2-column grids where appropriate |
+| Medium (md:)      | 768px     | Tablets                     | 2-column layouts, expanded navigation              |
+| Large (lg:)       | 1024px    | Desktops, large tablets     | Multi-column grids, sidebars, inline navigation    |
+| Extra Large (xl:) | 1280px    | Large desktops              | 4-column grids, generous spacing                   |
 
 ### Touch Target Compliance
 
 All interactive elements meet WCAG 2.1 Level AA requirements:
+
 - Minimum 44x44px touch targets on mobile and tablet devices
 - Adequate spacing between interactive elements to prevent mis-taps
 - Touch-friendly form inputs (16px minimum font size to prevent auto-zoom)
@@ -95,11 +119,13 @@ All interactive elements meet WCAG 2.1 Level AA requirements:
 ### Testing
 
 Responsive layouts are tested across multiple viewports:
+
 - iPhone SE (375px), iPhone 12 Pro (390px)
 - iPad (768px), iPad Pro (1024px)
 - Desktop (1920px), Ultra-wide (2560px)
 
 All E2E tests validate:
+
 - No horizontal scrolling
 - Touch target minimum sizes
 - Layout adaptation at breakpoints
@@ -182,27 +208,32 @@ src/
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd rag-poc-front
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Configure environment variables:
+
 ```bash
 cp .env.example .env
 ```
 
 Edit `.env` to set your API URL (default: `http://localhost:42069`):
+
 ```env
 VITE_API_BASE_URL=http://localhost:42069
 ```
 
 4. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -237,9 +268,12 @@ npm run generate:api     # Generate types from OpenAPI spec
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `VITE_API_BASE_URL` | Backend API base URL | `http://localhost:42069` |
+| Variable                  | Description          | Default                  |
+| ------------------------- | -------------------- | ------------------------ |
+| `VITE_API_BASE_URL`       | Backend API base URL | `http://localhost:42069` |
+| `VITE_KEYCLOAK_URL`       | Keycloak Server URL  | `http://localhost:8180`  |
+| `VITE_KEYCLOAK_REALM`     | Keycloak Realm       | `rag-saas`               |
+| `VITE_KEYCLOAK_CLIENT_ID` | Keycloak Client ID   | `rag-saas-api`           |
 
 ### Build Configuration
 
@@ -312,7 +346,6 @@ Per the project constitution (`.specify/memory/constitution.md`):
 ### Known Limitations
 
 - **User Story 4** (Knowledge Graph) - Discarded due to missing backend API
-- **Authentication** - Not yet implemented (future enhancement)
 - **Internationalization** - English only (future enhancement)
 
 ## API Integration
@@ -338,6 +371,7 @@ This generates TypeScript types and SDK methods in `src/services/api/generated/`
 ### Common Issues
 
 **Dev server won't start**
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules package-lock.json
@@ -345,18 +379,21 @@ npm install
 ```
 
 **Type errors after API changes**
+
 ```bash
 # Regenerate API types
 npm run generate:api
 ```
 
 **Build fails with memory error**
+
 ```bash
 # Increase Node memory limit
 NODE_OPTIONS=--max-old-space-size=4096 npm run build
 ```
 
 **CSS not updating**
+
 ```bash
 # Restart dev server (Vite issue)
 npm run dev
@@ -377,6 +414,7 @@ npm run dev
 ## Support
 
 For issues and questions:
+
 - Create an issue in the GitHub repository
 - Refer to the specification docs in `specs/001-rag-knowledge-platform/`
 

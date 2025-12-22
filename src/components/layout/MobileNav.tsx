@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Menu, Home, FileText, MessageSquare } from 'lucide-react'
 import {
   Sheet,
@@ -17,24 +18,25 @@ import { cn } from '@/lib/utils'
  * Only visible on mobile/tablet devices (< 1024px).
  */
 export function MobileNav() {
+  const { t } = useTranslation()
   const location = useLocation()
 
   const navItems = [
     {
       to: '/projects',
       icon: Home,
-      label: 'Projects',
+      label: t('navigation.home'),
     },
     {
       to: '/documents',
       icon: FileText,
-      label: 'Documents',
+      label: t('navigation.documents'),
       disabled: true, // Requires project context
     },
     {
       to: '/chat',
       icon: MessageSquare,
-      label: 'Chat',
+      label: t('navigation.chat'),
       disabled: true, // Requires project context
     },
   ]
@@ -46,7 +48,7 @@ export function MobileNav() {
           variant="ghost"
           size="icon"
           className="lg:hidden"
-          aria-label="Open navigation menu"
+          aria-label={t('navigation.menu')}
           data-testid="mobile-menu-trigger"
         >
           <Menu className="h-6 w-6" />
@@ -54,7 +56,7 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="left" className="w-[280px] sm:w-[320px]">
         <SheetHeader>
-          <SheetTitle>Navigation</SheetTitle>
+          <SheetTitle>{t('navigation.menu')}</SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-2 mt-6">
           {navItems.map((item) => {

@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { useTranslation } from 'react-i18next'
 import { Upload, FileText } from 'lucide-react'
 import { useUploadFile } from '../hooks/useUploadFile'
 import { Progress } from '@/components/ui/progress'
@@ -13,6 +14,7 @@ interface DocumentUploadZoneProps {
  * Drag-and-drop file upload zone component
  */
 export function DocumentUploadZone({ projectId }: DocumentUploadZoneProps) {
+  const { t } = useTranslation()
   const { mutate: uploadFile, isPending, progress } = useUploadFile()
 
   const onDrop = useCallback(
@@ -20,7 +22,7 @@ export function DocumentUploadZone({ projectId }: DocumentUploadZoneProps) {
       acceptedFiles.forEach((file) => {
         // Validate file size
         if (file.size > 25 * 1024 * 1024) {
-          toast.error(`${file.name} exceeds 25MB limit`)
+          toast.error(t('upload.exceedsLimit', { name: file.name }))
           return
         }
 
@@ -32,14 +34,14 @@ export function DocumentUploadZone({ projectId }: DocumentUploadZoneProps) {
           'text/markdown',
         ]
         if (!validTypes.includes(file.type)) {
-          toast.error(`${file.name} is not a supported file type`)
+          toast.error(t('upload.unsupportedType', { name: file.name }))
           return
         }
 
         uploadFile({ file, projectId })
       })
     },
-    [uploadFile, projectId]
+    [uploadFile, projectId, t]
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -69,16 +71,16 @@ export function DocumentUploadZone({ projectId }: DocumentUploadZoneProps) {
           {isDragActive ? (
             <>
               <Upload className="h-12 w-12 text-primary" />
-              <p className="text-lg font-medium">Drop files here...</p>
+              <p className="text-lg font-medium">{t('upload.dropFilesHere')}</p>
             </>
           ) : (
             <>
               <FileText className="h-12 w-12 text-muted-foreground" />
               <p className="text-lg font-medium">
-                Drag & drop files here, or click to select
+                {t('upload.dragAndDrop')}
               </p>
               <p className="text-sm text-muted-foreground">
-                Supports PDF, DOCX, TXT, MD • Max 25MB per file • Up to 10 files at once
+                {t('upload.supportedFormats')}
               </p>
             </>
           )}
@@ -88,7 +90,7 @@ export function DocumentUploadZone({ projectId }: DocumentUploadZoneProps) {
       {isPending && progress > 0 && (
         <div className="mt-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">Uploading...</span>
+            <span className="text-sm text-muted-foreground">{t('common.uploading')}</span>
             <span className="text-sm font-medium">{progress}%</span>
           </div>
           <Progress value={progress} />

@@ -171,7 +171,7 @@ export const ChatMessage = ({ message, sources }: ChatMessageProps) => {
               components={{
                 // Style code blocks
                 pre: ({ children, ...props }) => (
-                  <pre className="overflow-x-auto rounded-md bg-zinc-950 p-4 text-sm" {...props}>
+                  <pre className="overflow-x-auto rounded-md bg-zinc-100 dark:bg-zinc-950 p-4 text-sm" {...props}>
                     {children}
                   </pre>
                 ),
@@ -179,7 +179,7 @@ export const ChatMessage = ({ message, sources }: ChatMessageProps) => {
                 code: ({ className, children, ...props }) => {
                   const isInline = !className;
                   return isInline ? (
-                    <code className="rounded bg-zinc-800 px-1 py-0.5 text-sm" {...props}>
+                    <code className="rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-1 py-0.5 text-sm" {...props}>
                       {children}
                     </code>
                   ) : (
@@ -190,7 +190,7 @@ export const ChatMessage = ({ message, sources }: ChatMessageProps) => {
                 },
                 // Style links
                 a: ({ children, ...props }) => (
-                  <a className="text-blue-400 hover:text-blue-300 underline" {...props}>
+                  <a className="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline" {...props}>
                     {children}
                   </a>
                 ),
@@ -214,12 +214,12 @@ export const ChatMessage = ({ message, sources }: ChatMessageProps) => {
                 ),
                 // Style lists - process children to replace citation markers
                 ul: ({ children, ...props }) => (
-                  <ul className="list-disc list-inside space-y-1 my-2" {...props}>
+                  <ul className="list-disc pl-5 space-y-1 my-2 [&_ul]:mt-1 [&_ul]:mb-0 [&_ol]:mt-1 [&_ol]:mb-0" {...props}>
                     {processChildren(children, sources)}
                   </ul>
                 ),
                 ol: ({ children, ...props }) => (
-                  <ol className="list-decimal list-inside space-y-1 my-2" {...props}>
+                  <ol className="list-decimal pl-5 space-y-1 my-2 [&_ul]:mt-1 [&_ul]:mb-0 [&_ol]:mt-1 [&_ol]:mb-0" {...props}>
                     {processChildren(children, sources)}
                   </ol>
                 ),

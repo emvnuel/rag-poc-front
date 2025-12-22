@@ -5,6 +5,7 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { ProjectInfoResponse } from '@/services/api/generated/types.gen';
 import { useProjects } from '@/features/projects/hooks/useProjects';
 import { useDelayedLoading } from '@/hooks/useDelayedLoading';
@@ -24,6 +25,7 @@ import { Button } from '@/components/ui/button';
  * - Loading and empty states
  */
 export const ProjectsPage = () => {
+  const { t } = useTranslation();
   const { data: projects, isLoading } = useProjects();
   const showLoading = useDelayedLoading(isLoading);
 
@@ -51,13 +53,13 @@ export const ProjectsPage = () => {
     <div className="container mx-auto max-w-7xl p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Projects</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">{t('projects.title')}</h1>
           <p className="text-sm md:text-base text-muted-foreground">
-            Manage your knowledge base workspaces
+            {t('projects.subtitle')}
           </p>
         </div>
         <Button onClick={() => setCreateDialogOpen(true)} className="w-full sm:w-auto">
-          Create Project
+          {t('projects.createProject')}
         </Button>
       </div>
 

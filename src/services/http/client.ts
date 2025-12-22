@@ -6,35 +6,15 @@
  */
 
 import axios, { AxiosError } from 'axios'
+import { authService } from '../../features/auth/services/auth-service'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:42069'
 const API_TIMEOUT = 10000 // 10 seconds default
 const UPLOAD_TIMEOUT = 30000 // 30 seconds for file uploads
-const CHAT_TIMEOUT = 120000 // 120 seconds for LLM responses (RAG + generation)
+const CHAT_TIMEOUT = 120000 // 120 seconds for LLM responses
 
 /**
  * Configured Axios HTTP client instance for API requests.
- *
- * Features:
- * - Base URL: localhost:42069 (configurable via VITE_API_BASE_URL)
- * - Default timeout: 10s (30s for file uploads, 120s for chat)
- * - Automatic error transformation
- * - Rate limiting and auth error handling
- * - Content-Type: application/json by default
- *
- * @example
- * ```ts
- * // GET request
- * const response = await httpClient.get<User[]>('/users');
- *
- * // POST request
- * await httpClient.post('/users', { name: 'John' });
- *
- * // File upload (automatically uses 30s timeout)
- * const formData = new FormData();
- * formData.append('file', file);
- * await httpClient.post('/upload', formData);
- * ```
  */
 export const httpClient = axios.create({
   baseURL: API_BASE_URL,
@@ -44,21 +24,30 @@ export const httpClient = axios.create({
   },
 })
 
-// Request interceptor: Add auth headers (future) and adjust timeout for uploads and chat
+// Request interceptor: Add auth headers and adjust timeout
 httpClient.interceptors.request.use(
-  (config) => {
-    // TODO: Add JWT token when auth is implemented
-    // const token = getAuthToken();
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+  async (config) => {
+    // Add JWT token if we have a valid session
+    if (authService.isAuthenticated()) {
+      try {
+        // Update token if it expires in less than 30 seconds
+        await authService.keycloak.updateToken(30)
+        
+        if (authService.token) {
+          config.headers.Authorization = `Bearer ${authService.token}`
+        }
+      } catch (error) {
+        console.warn('Failed to refresh token', error)
+        authService.logout()
+      }
+    }
 
     // Increase timeout for file uploads
     if (config.data instanceof FormData) {
       config.timeout = UPLOAD_TIMEOUT
     }
     
-    // Increase timeout for chat requests (LLM responses can be slow)
+    // Increase timeout for chat requests
     if (config.url?.includes('/chat')) {
       config.timeout = CHAT_TIMEOUT
     }
@@ -74,14 +63,15 @@ httpClient.interceptors.request.use(
 httpClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    // Handle specific error codes
+    // Handle 401 Unauthorized - Keycloak should catch most expirations before this via updateToken,
+    // but if the session is invalidated server-side, we logout.
     if (error.response?.status === 401) {
-      // TODO: Redirect to login when auth is implemented
-      console.error('Unauthorized access')
+      // Avoid infinite loops if logout itself fails (though logout is usually a redirect)
+       console.error('Unauthorized request, logging out')
+       authService.logout()
     }
 
     if (error.response?.status === 429) {
-      // Rate limiting
       console.error('Too many requests. Please try again later.')
     }
 
@@ -103,9 +93,6 @@ httpClient.interceptors.response.use(
 
 /**
  * Standardized API error structure.
- *
- * All HTTP errors are transformed into this consistent format by the
- * response interceptor for easier error handling throughout the application.
  */
 export interface ApiError {
   /** HTTP status code (e.g., 404, 500) */
